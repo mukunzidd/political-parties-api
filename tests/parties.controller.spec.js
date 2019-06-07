@@ -20,7 +20,7 @@ describe("Parties Controller", () => {
   after(async () => {
     await database.query("TRUNCATE TABLE parties RESTART IDENTITY");
   });
-  it("should fetch all users", done => {
+  it("should fetch all parties", done => {
     chai
       .request(server)
       .get("/api/v1/parties")
@@ -31,7 +31,7 @@ describe("Parties Controller", () => {
         done();
       });
   });
-  it("should fetch one user", done => {
+  it("should fetch one party", done => {
     chai
       .request(server)
       .get(`/api/v1/parties/${party[0].id}`)
@@ -43,7 +43,7 @@ describe("Parties Controller", () => {
         done();
       });
   });
-  it("should fetch one user", done => {
+  it("should create one party", done => {
     chai
       .request(server)
       .post(`/api/v1/parties`)

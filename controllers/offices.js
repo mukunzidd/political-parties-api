@@ -2,12 +2,12 @@ import database from "../db";
 
 const date = new Date();
 
-export default class Parties {
+export default class Offices {
   static async findAll(req, res) {
     try {
-      const QUERY_STRING = "SELECT * FROM parties";
+      const QUERY_STRING = "SELECT * FROM offices";
       const results = await database.query(QUERY_STRING);
-      return res.json({ parties: results });
+      return res.json({ offices: results });
     } catch (error) {
       return res.json({ message: "some error", error: error.message });
     }
@@ -15,17 +15,17 @@ export default class Parties {
 
   static async create(req, res) {
     try {
-      const { name, tagline, supporters } = req.body;
-      const data = [name, tagline, supporters, date, date];
+      const { title, term } = req.body;
+      const data = [title, term, date, date];
       const QUERY_STRING = `
-        INSERT INTO parties(name, tagline, supporters, created_at, updated_at)
-        VALUES($1, $2, $3, $4, $5)
+        INSERT INTO offices(title, term, created_at, updated_at)
+        VALUES($1, $2, $3, $4)
         returning *
         `;
       const results = await database.query(QUERY_STRING, data);
       return res.status(201).json({
-        message: "Party created successfully",
-        party: results[0]
+        message: "Office created successfully",
+        office: results[0]
       });
     } catch (error) {
       return res.status(500).json({ message: "error", error: error.message });
@@ -35,12 +35,12 @@ export default class Parties {
   static async find(req, res) {
     try {
       const { id } = req.params;
-      const QUERY_STRING = "SELECT * FROM parties WHERE id = $1";
+      const QUERY_STRING = "SELECT * FROM offices WHERE id = $1";
       const results = await database.query(QUERY_STRING, [id]);
       if (!results[0]) {
-        return res.status(404).json({ message: "Party not found" });
+        return res.status(404).json({ message: "Office not found" });
       }
-      return res.json({ party: results[0] });
+      return res.json({ office: results[0] });
     } catch (error) {
       return res.status(500).json({ message: "error", error: error.message });
     }
@@ -52,28 +52,22 @@ export default class Parties {
         params: { id },
         body
       } = req;
-      const party = await database.query(
-        "SELECT * FROM parties WHERE id = $1",
+      const office = await database.query(
+        "SELECT * FROM offices WHERE id = $1",
         [id]
       );
-      if (!party[0]) {
-        return res.status(404).json({ message: "Party not found" });
+      if (!office[0]) {
+        return res.status(404).json({ message: "Office not found" });
       }
-      const updatBody = { ...party[0], ...body };
+      const updatBody = { ...office[0], ...body };
       const QUERY_STRING =
-        "UPDATE parties SET name = $1, tagline = $2, supporters = $3, updated_at = $4 WHERE id = $5 returning *";
-      const data = [
-        updatBody.name,
-        updatBody.tagline,
-        updatBody.supporters,
-        date,
-        id
-      ];
+        "UPDATE offices SET title = $1, term = $2, updated_at = $3 WHERE id = $4 returning *";
+      const data = [updatBody.title, updatBody.term, date, id];
       const results = await database.query(QUERY_STRING, data);
 
       return res
         .status(201)
-        .json({ message: "Updated successfully", party: results[0] });
+        .json({ message: "Updated successfully", office: results[0] });
     } catch (error) {
       return res.status(500).json({ message: "error", error: error.message });
     }
@@ -82,12 +76,12 @@ export default class Parties {
   static async delete(req, res) {
     try {
       const { id } = req.params;
-      const QUERY_STRING = "DELETE FROM parties WHERE id = $1 returning id";
+      const QUERY_STRING = "DELETE FROM offices WHERE id = $1 returning id";
       const results = await database.query(QUERY_STRING, [id]);
       if (!results[0]) {
-        return res.status(404).json({ message: "Party not found" });
+        return res.status(404).json({ message: "Office not found" });
       }
-      return res.status(200).json({ message: "Party deleted" });
+      return res.status(200).json({ message: "Office deleted" });
     } catch (error) {
       return res.status(500).json({ message: "Error", error: error.message });
     }
