@@ -18,7 +18,7 @@ describe("Parties Controller", () => {
     party = await database.query(QUERY_STRING, data);
   });
   after(async () => {
-    await database.query("TRUNCATE TABLE parties RESTART IDENTITY");
+    party = await database.query("TRUNCATE TABLE parties RESTART IDENTITY");
   });
   it("should fetch all parties", done => {
     chai

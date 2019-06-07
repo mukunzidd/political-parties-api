@@ -31,7 +31,18 @@ describe("Offices Controller", () => {
         done();
       });
   });
-  it("should create one party", done => {
+  it("should fetch one office", done => {
+    chai
+      .request(server)
+      .get(`/api/v1/offices/${office[0].id}`)
+      .end((err, res) => {
+        expect(res.status).equals(200);
+        expect(res.body).to.be.an("object");
+        expect(res.body.office.id).equal(office[0].id);
+        done();
+      });
+  });
+  it("should create one office", done => {
     chai
       .request(server)
       .post(`/api/v1/offices`)

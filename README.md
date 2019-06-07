@@ -54,3 +54,7 @@ CREATE TABLE offices(id SERIAL PRIMARY KEY,
 title VARCHAR(50),
 term INTEGER);
 ```
+
+TODO: Add relation ship and join offices and parties to candidates
+
+eg: `SELECT columns FROM table1 INNER JOIN table2 ON table1.column = table2.column;`
