@@ -6,6 +6,9 @@ import candidates from "./routes/candidates";
 const app = express();
 
 app.use(express.json());
+app.get("/", (re, res) => {
+  res.send("Yeeeei!").json();
+});
 app.use("/api/v1/", parties);
 app.use("/api/v1/", offices);
 app.use("/api/v1", candidates);
@@ -13,7 +16,8 @@ app.use("/api/v1", candidates);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`App listening on ${PORT}`);
+  // eslint-disable-next-line no-console
+  console.debug(`App listening on ${PORT}`);
 });
 
 export default app;

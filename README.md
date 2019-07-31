@@ -2,6 +2,9 @@
 
 Political Parties API with Express and SQL.
 
+### Run Locally
+
+
 ### Political Parties API
 
 - name: String

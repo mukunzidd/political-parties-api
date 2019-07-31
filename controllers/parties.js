@@ -5,11 +5,16 @@ const date = new Date();
 export default class Parties {
   static async findAll(req, res) {
     try {
-      const QUERY_STRING = "SELECT * FROM parties";
-      const results = await database.query(QUERY_STRING);
+      // const QUERY_STRING = "SELECT * FROM parties";
+      // const results = await database.query(QUERY_STRING);
+      const results = [
+        { id: 1, name: "RPF" },
+        { id: 1, name: "Liberal" },
+        { id: 1, name: "Republican" }
+      ];
       return res.json({ parties: results });
     } catch (error) {
-      return res.json({ message: "some error", error: error.message });
+      return res.json({ message: "Error", error: error.message });
     }
   }
 
